@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Kyoto Sushi Bar & Lounge | Cardápio Digital Premium</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Cinzel:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --bg: #0a0a0c;
+      --card-bg: #141419;
+      --elevated: #1f1f26;
+      --gold: #d4af37;
+      --gold-light: #f3e5ab;
+      --red: #e11d48;
+      --text: #f8fafc;
+      --muted: #8e8e9f;
+      --border: #262633;
+      --radius: 14px;
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Plus Jakarta Sans',sans-serif; -webkit-tap-highlight-color:transparent; }
+    body { background: var(--bg); color: var(--text); display: flex; justify-content: center; min-height: 100vh; padding-bottom: 90px; }
+    .app-viewport { width: 100%; max-width: 480px; background: var(--bg); min-height: 100vh; position: relative; box-shadow: 0 0 50px rgba(0,0,0,0.9); }
+
+    .top-bar { background: #111116; border-bottom: 1px solid var(--border); padding: 8px 16px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+    .badge-demo { font-size: 10px; font-weight: 700; color: var(--gold); display: flex; align-items: center; gap: 5px; }
+    .lang-box { display: flex; background: var(--elevated); border-radius: 20px; padding: 2px; }
+    .btn-lang { border: none; background: transparent; color: var(--muted); padding: 3px 9px; border-radius: 14px; font-size: 11px; font-weight: 700; cursor: pointer; }
+    .btn-lang.active { background: var(--gold); color: #000; }
+
+    .hero-header { position: relative; height: 210px; overflow: hidden; }
+    .hero-cover { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.45); }
+    .header-details { position: absolute; bottom: 16px; left: 16px; right: 16px; display: flex; align-items: flex-end; gap: 14px; }
+    .logo-img { width: 66px; height: 66px; border-radius: var(--radius); border: 2px solid var(--gold); object-fit: cover; background: #000; box-shadow: 0 4px 14px rgba(0,0,0,0.8); }
+    .title-box h1 { font-family: 'Cinzel', serif; font-size: 23px; font-weight: 700; line-height: 1.1; margin-bottom: 3px; letter-spacing: 1px; color: var(--gold-light); }
+    .status-badge { background: rgba(225, 29, 72, 0.2); color: #fb7185; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; }
+
+    .info-bar { display: grid; grid-template-columns: repeat(3, 1fr); padding: 12px 16px; background: var(--card-bg); border-bottom: 1px solid var(--border); text-align: center; font-size: 11px; }
+    .info-bar strong { color: #fff; display: block; font-size: 12px; margin-top: 2px; }
+    .info-bar span { color: var(--muted); }
+    .info-bar i { color: var(--gold); font-size: 14px; }
+
+    .categories-bar { display: flex; gap: 8px; overflow-x: auto; padding: 12px 16px; scrollbar-width: none; }
+    .categories-bar::-webkit-scrollbar { display: none; }
+    .cat-btn { background: var(--card-bg); border: 1px solid var(--border); color: var(--muted); padding: 7px 15px; border-radius: 20px; font-size: 12px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: 0.2s; }
+    .cat-btn.active { background: var(--gold); border-color: var(--gold); color: #000; font-weight: 700; }
+
+    .menu-container { padding: 8px 16px 20px; }
+    .sushi-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; display: flex; gap: 12px; margin-bottom: 12px; }
+    .sushi-img-box { width: 95px; height: 95px; border-radius: 10px; overflow: hidden; flex-shrink: 0; position: relative; }
+    .sushi-img { width: 100%; height: 100%; object-fit: cover; }
+    .sushi-info { flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+    .sushi-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; color: #fff; }
+    .sushi-desc { font-size: 11px; color: var(--muted); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 6px; }
+    .sushi-footer { display: flex; align-items: center; justify-content: space-between; }
+    .sushi-price { font-size: 15px; font-weight: 800; color: var(--gold); }
+
+    .btn-add { background: var(--elevated); color: var(--gold); border: 1px solid rgba(212, 175, 55, 0.4); width: 32px; height: 32px; border-radius: 8px; font-size: 15px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .btn-add:hover { background: var(--gold); color: #000; }
+
+    .qty-box { display: flex; align-items: center; gap: 6px; background: var(--elevated); border-radius: 8px; padding: 2px; }
+    .btn-qty { width: 26px; height: 26px; background: var(--gold); border: none; color: #000; border-radius: 6px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .qty-text { font-size: 12px; font-weight: 700; min-width: 16px; text-align: center; color: #fff; }
+
+    .floating-bar { position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%); width: calc(100% - 32px); max-width: 448px; background: linear-gradient(135deg, #1c1c24, #0f0f14); border: 1px solid var(--gold); border-radius: 20px; padding: 12px 18px; display: none; align-items: center; justify-content: space-between; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8); z-index: 99; cursor: pointer; }
+    .cart-bubble { background: rgba(212, 175, 55, 0.2); color: var(--gold); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; }
+    .badge-count { position: absolute; top: -3px; right: -3px; background: var(--red); color: #fff; font-size: 10px; font-weight: 800; width: 17px; height: 17px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+    .drawer-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); z-index: 1000; display: none; align-items: flex-end; justify-content: center; }
+    .drawer-content { background: var(--card-bg); width: 100%; max-width: 480px; border-radius: 24px 24px 0 0; padding: 20px; max-height: 85vh; overflow-y: auto; border-top: 1px solid var(--gold); }
+    .drawer-head { display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; border-bottom: 1px solid var(--border); margin-bottom: 12px; }
+    .order-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .input-field { width: 100%; background: var(--elevated); border: 1px solid var(--border); border-radius: 8px; color: #fff; padding: 10px; font-size: 13px; margin-bottom: 8px; outline: none; }
+    .btn-zap { width: 100%; background: #25d366; color: #fff; border: none; border-radius: 12px; padding: 14px; font-size: 15px; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; margin-top: 10px; }
+  </style>
+</head>
+<body>
+
+  <div class="app-viewport">
+    <div class="top-bar">
+      <div class="badge-demo">
+        <i class="fa-solid fa-fish"></i>
+        <span>MODELO JAPONÊS & SUSHI BAR</span>
+      </div>
+      <div class="lang-box">
+        <button class="btn-lang" id="btn-pt" onclick="changeLang('pt')">🇧🇷 R$ (BR)</button>
+        <button class="btn-lang active" id="btn-en" onclick="changeLang('en')">🇺🇸 $ (US)</button>
+      </div>
+    </div>
+
+    <div class="hero-header">
+      <img src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=900&auto=format&fit=crop&q=80" class="hero-cover">
+      <div class="header-details">
+        <img src="https://images.unsplash.com/photo-1611143669185-af224c5e3252?w=200&auto=format&fit=crop&q=80" class="logo-img">
+        <div class="title-box">
+          <div class="status-badge"><i class="fa-solid fa-circle" style="font-size:7px;"></i> SALMÃO FRESCO DO DIA</div>
+          <h1>KYOTO SUSHI & LOUNGE</h1>
+          <div style="font-size:12px; color:var(--muted);"><i class="fa-solid fa-star" style="color:var(--gold);"></i> 4.9 (512 avaliações) • Alta Gastronomia</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-bar">
+      <div>
+        <i class="fa-solid fa-gem"></i>
+        <strong>Sashimi Premium</strong>
+        <span>Cortes Nobres Salmão</span>
+      </div>
+      <div>
+        <i class="fa-solid fa-box"></i>
+        <strong>Embalagem Térmica</strong>
+        <span>Mantém o frescor</span>
+      </div>
+      <div>
+        <i class="fa-solid fa-wine-bottle"></i>
+        <strong>Saquês & Drinks</strong>
+        <span>Coquetelaria Autoral</span>
+      </div>
+    </div>
+
+    <div class="categories-bar">
+      <button class="cat-btn active" onclick="setCategory('all', this)">Cardápio Completo</button>
+      <button class="cat-btn" onclick="setCategory('combinados', this)">Combinados Especiais</button>
+      <button class="cat-btn" onclick="setCategory('hots', this)">Hots & Crocantes</button>
+      <button class="cat-btn" onclick="setCategory('temakis', this)">Temakis</button>
+      <button class="cat-btn" onclick="setCategory('drinks', this)">Saquês & Bebidas</button>
+    </div>
+
+    <div class="menu-container" id="menu-items"></div>
+
+    <div class="floating-bar" id="floating-bar" onclick="openCart()">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div class="cart-bubble">
+          <i class="fa-solid fa-bag-shopping"></i>
+          <span class="badge-count" id="badge-count">0</span>
+        </div>
+        <div>
+          <h4 id="bar-total" style="font-size:14px; color:var(--gold);">R$ 0,00</h4>
+          <span id="bar-sub" style="font-size:11px; color:rgba(255,255,255,0.8);">0 itens</span>
+        </div>
+      </div>
+      <div style="font-size:13px; font-weight:800; background:var(--gold); color:#000; padding:8px 12px; border-radius:12px;">
+        <span>Ver Pedido</span> <i class="fa-solid fa-arrow-right"></i>
+      </div>
+    </div>
+
+    <div class="drawer-overlay" id="drawer" onclick="closeCart(event)">
+      <div class="drawer-content" onclick="event.stopPropagation()">
+        <div class="drawer-head">
+          <h3 style="color:var(--gold);"><i class="fa-solid fa-fish"></i> Pedido - Kyoto Sushi</h3>
+          <button style="background:none; border:none; color:#fff; font-size:18px; cursor:pointer;" onclick="closeCart(null)"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+
+        <div id="drawer-list" style="margin-bottom:14px;"></div>
+
+        <input type="text" class="input-field" id="s-name" placeholder="Nome Completo">
+        <input type="text" class="input-field" id="s-addr" placeholder="Endereço de Entrega ou Mesa">
+        <input type="text" class="input-field" id="s-hashi" placeholder="Quantos Hashis e molhos Shoyu/Tarê deseja?">
+
+        <div style="display:flex; justify-content:space-between; margin:12px 0 6px;">
+          <span style="color:var(--muted); font-size:13px;">Total:</span>
+          <strong style="color:var(--gold); font-size:18px;" id="drawer-total">R$ 0,00</strong>
+        </div>
+
+        <button class="btn-zap" onclick="submitSushiZap()">
+          <i class="fa-brands fa-whatsapp" style="font-size:20px;"></i>
+          <span>Enviar Pedido pelo WhatsApp</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const sushiCatalog = [
+      {
+        id: "s1", cat: "combinados",
+        name_pt: "Combinado Black Truffle (32 peças)",
+        desc_pt: "10 sashimis salmão maçaricado com azeite trufado e flor de sal, 8 uramakis ebi crocante, 8 joy brie com geleia de pimenta e 6 hots.",
+        name_en: "Black Truffle Signature Combo (32 pcs)",
+        desc_en: "10 seared salmon sashimis with black truffle oil and sea salt, 8 crispy shrimp uramakis, 8 brie joys with pepper jelly, 6 hot rolls.",
+        price_brl: 129.90, price_usd: 39.00,
+        img: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=400&auto=format&fit=crop&q=80"
+      },
+      {
+        id: "s2", cat: "combinados",
+        name_pt: "Combinado Tradicional Kyoto (20 peças)",
+        desc_pt: "8 sashimis de salmão fresco do dia, 4 niguiris salmão, 4 uramakis filadélfia e 4 hossomakis de salmão com raspas de limão siciliano.",
+        name_en: "Classic Kyoto Salmon Set (20 pcs)",
+        desc_en: "8 fresh day-catch salmon sashimis, 4 salmon nigiris, 4 Philadelphia rolls, 4 salmon hosomakis with lemon zest.",
+        price_brl: 89.90, price_usd: 27.00,
+        img: "https://images.unsplash.com/photo-1611143669185-af224c5e3252?w=400&auto=format&fit=crop&q=80"
+      },
+      {
+        id: "s3", cat: "hots",
+        name_pt: "Hot Roll Especial Salmão & Cream Cheese (10 un)",
+        desc_pt: "Enrolado frito em farinha panko ultra crocante, recheio generoso de salmão e cream cheese, coberto com molho tarê artesanal e cebolinha.",
+        name_en: "Crispy Panko Salmon & Cream Cheese Hot Roll (10 pcs)",
+        desc_en: "Golden crispy panko-crusted roll stuffed with fresh salmon and cream cheese, drizzled with artisan tare sauce and scallions.",
+        price_brl: 38.90, price_usd: 12.00,
+        img: "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=400&auto=format&fit=crop&q=80"
+      },
+      {
+        id: "s4", cat: "temakis",
+        name_pt: "Temaki Salmão Completo em Dobro",
+        desc_pt: "Alga nori crocante de alta qualidade, recheado do topo à ponta com salmão fresco batido, cream cheese original e cebolinha fresca.",
+        name_en: "Double Salmon Hand Roll (Temaki)",
+        desc_en: "Premium crisp nori seaweed packed with hand-minced fresh Atlantic salmon, Philadelphia cream cheese, and scallions.",
+        price_brl: 36.90, price_usd: 11.50,
+        img: "https://images.unsplash.com/photo-1553621042-f6e147245754?w=400&auto=format&fit=crop&q=80"
+      },
+      {
+        id: "s5", cat: "drinks",
+        name_pt: "Saquê Junmai Dourado 720ml",
+        desc_pt: "Saquê importado super premium, paladar suave e aveludado, ideal para degustar com sashimis frios.",
+        name_en: "Junmai Golden Sake Bottle 720ml",
+        desc_en: "Imported ultra-premium Japanese sake, smooth velvety finish, pairing recommendation for sashimi and nigiris.",
+        price_brl: 95.00, price_usd: 30.00,
+        img: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=400&auto=format&fit=crop&q=80"
+      }
+    ];
+
+    let currentLanguage = 'en';
+    let currentCategory = 'all';
+    let cart = {};
+
+    function changeLang(lang) {
+      currentLanguage = lang;
+      document.getElementById('btn-pt').classList.toggle('active', lang === 'pt');
+      document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+      renderMenu();
+      updateCart();
+    }
+
+    function setCategory(cat, btn) {
+      currentCategory = cat;
+      document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+      if(btn) btn.classList.add('active');
+      renderMenu();
+    }
+
+    function formatVal(brl, usd) {
+      return currentLanguage === 'pt' ? 'R$ ' + brl.toFixed(2).replace('.', ',') : '$' + usd.toFixed(2);
+    }
+
+    function renderMenu() {
+      const el = document.getElementById('menu-items');
+      const filtered = sushiCatalog.filter(p => currentCategory === 'all' || p.cat === currentCategory);
+
+      el.innerHTML = filtered.map(item => {
+        const qty = cart[item.id] || 0;
+        const name = currentLanguage === 'pt' ? item.name_pt : item.name_en;
+        const desc = currentLanguage === 'pt' ? item.desc_pt : item.desc_en;
+        const price = formatVal(item.price_brl, item.price_usd);
+        return `
+          <div class="sushi-card">
+            <div class="sushi-img-box">
+              <img src="${item.img}" class="sushi-img" alt="${name}">
+            </div>
+            <div class="sushi-info">
+              <div>
+                <h3 class="sushi-title">${name}</h3>
+                <p class="sushi-desc">${desc}</p>
+              </div>
+              <div class="sushi-footer">
+                <span class="sushi-price">${price}</span>
+                ${qty === 0 ? `
+                  <button class="btn-add" onclick="addItem('${item.id}')"><i class="fa-solid fa-plus"></i></button>
+                ` : `
+                  <div class="qty-box">
+                    <button class="btn-qty" onclick="subItem('${item.id}')"><i class="fa-solid fa-minus"></i></button>
+                    <span class="qty-text">${qty}</span>
+                    <button class="btn-qty" onclick="addItem('${item.id}')"><i class="fa-solid fa-plus"></i></button>
+                  </div>
+                `}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function addItem(id) {
+      cart[id] = (cart[id] || 0) + 1;
+      renderMenu();
+      updateCart();
+    }
+
+    function subItem(id) {
+      if(cart[id]) {
+        cart[id]--;
+        if(cart[id] <= 0) delete cart[id];
+      }
+      renderMenu();
+      updateCart();
+    }
+
+    function getTotals() {
+      let brl = 0, usd = 0, count = 0;
+      for(const [id, q] of Object.entries(cart)) {
+        const p = sushiCatalog.find(x => x.id === id);
+        if(p) {
+          brl += p.price_brl * q;
+          usd += p.price_usd * q;
+          count += q;
+        }
+      }
+      return { brl, usd, count };
+    }
+
+    function updateCart() {
+      const { brl, usd, count } = getTotals();
+      const bar = document.getElementById('floating-bar');
+      document.getElementById('badge-count').innerText = count;
+      document.getElementById('bar-total').innerText = formatVal(brl, usd);
+      document.getElementById('bar-sub').innerText = `${count} item(ns)`;
+      bar.style.display = count > 0 ? 'flex' : 'none';
+
+      document.getElementById('drawer-total').innerText = formatVal(brl, usd);
+      const listEl = document.getElementById('drawer-list');
+      listEl.innerHTML = Object.entries(cart).map(([id, q]) => {
+        const p = sushiCatalog.find(x => x.id === id);
+        if(!p) return '';
+        return `
+          <div class="order-row">
+            <div>
+              <div style="font-size:13px; font-weight:700;">${p.name_pt}</div>
+              <div style="font-size:12px; color:var(--gold);">${q}x • ${formatVal(p.price_brl * q, p.price_usd * q)}</div>
+            </div>
+            <div class="qty-box">
+              <button class="btn-qty" onclick="subItem('${p.id}')">-</button>
+              <span class="qty-text">${q}</span>
+              <button class="btn-qty" onclick="addItem('${p.id}')">+</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function openCart() {
+      document.getElementById('drawer').style.display = 'flex';
+    }
+    function closeCart(e) {
+      document.getElementById('drawer').style.display = 'none';
+    }
+
+    function submitSushiZap() {
+      const { brl, count } = getTotals();
+      if(count === 0) return alert('Selecione ao menos 1 item!');
+      const name = document.getElementById('s-name').value.trim() || 'Cliente';
+      const addr = document.getElementById('s-addr').value.trim() || 'Mesa / Retirada';
+      const hashi = document.getElementById('s-hashi').value.trim();
+
+      let msg = `🍣 *PEDIDO - KYOTO SUSHI LOUNGE*\n\n`;
+      msg += `👤 *Cliente:* ${name}\n`;
+      msg += `📍 *Endereço/Mesa:* ${addr}\n`;
+      if(hashi) msg += `🥢 *Hashis/Molhos:* ${hashi}\n`;
+      msg += `\n🛒 *PEÇAS SELECIONADAS:*\n`;
+
+      for(const [id, q] of Object.entries(cart)) {
+        const p = sushiCatalog.find(x => x.id === id);
+        if(p) msg += `• ${q}x ${p.name_pt} (R$ ${(p.price_brl * q).toFixed(2).replace('.', ',')})\n`;
+      }
+      msg += `\n💰 *VALOR TOTAL: R$ ${brl.toFixed(2).replace('.', ',')}*\n`;
+
+      window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('lang') === 'pt') {
+      changeLang('pt');
+    } else {
+      changeLang('en');
+    }
+  </script>
+</body>
+</html>

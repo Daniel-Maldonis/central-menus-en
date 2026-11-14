@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Bella Napoli - Pizzaria Tradicional & Forno a Lenha</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --bg: #120e0d;
+      --card-bg: #1c1715;
+      --elevated: #28211e;
+      --primary: #dc2626;
+      --gold: #f59e0b;
+      --green: #16a34a;
+      --text: #fef2f2;
+      --muted: #a89f91;
+      --border: #382e29;
+      --radius: 14px;
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Plus Jakarta Sans',sans-serif; -webkit-tap-highlight-color:transparent; }
+    body { background: var(--bg); color: var(--text); display: flex; justify-content: center; min-height: 100vh; padding-bottom: 90px; }
+
+    .app-viewport { width: 100%; max-width: 480px; background: var(--bg); min-height: 100vh; position: relative; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
+
+    /* Top Bar */
+    .top-bar {
+      background: #181210;
+      border-bottom: 1px solid var(--border);
+      padding: 8px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .badge-demo { font-size: 10px; font-weight: 700; color: var(--gold); display: flex; align-items: center; gap: 5px; }
+    .lang-box { display: flex; background: var(--elevated); border-radius: 20px; padding: 2px; }
+    .btn-lang { border: none; background: transparent; color: var(--muted); padding: 3px 9px; border-radius: 14px; font-size: 11px; font-weight: 700; cursor: pointer; }
+    .btn-lang.active { background: var(--primary); color: #fff; }
+
+    /* Header */
+    .hero-header { position: relative; height: 210px; overflow: hidden; }
+    .hero-cover { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.5); }
+    .header-details { position: absolute; bottom: 16px; left: 16px; right: 16px; display: flex; align-items: flex-end; gap: 14px; }
+    .logo-img { width: 66px; height: 66px; border-radius: var(--radius); border: 2px solid var(--primary); object-fit: cover; background: #000; box-shadow: 0 4px 14px rgba(0,0,0,0.7); }
+    .title-box h1 { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; line-height: 1.1; margin-bottom: 4px; }
+    .status-badge { background: rgba(22, 163, 74, 0.2); color: #4ade80; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; margin-bottom: 3px; }
+
+    /* Quick Info */
+    .info-bar { display: grid; grid-template-columns: repeat(3, 1fr); padding: 12px 16px; background: var(--card-bg); border-bottom: 1px solid var(--border); text-align: center; font-size: 11px; }
+    .info-bar strong { color: #fff; display: block; font-size: 12px; margin-top: 2px; }
+    .info-bar span { color: var(--muted); }
+    .info-bar i { color: var(--gold); font-size: 14px; }
+
+    /* Categories */
+    .categories-bar { display: flex; gap: 8px; overflow-x: auto; padding: 12px 16px; scrollbar-width: none; }
+    .categories-bar::-webkit-scrollbar { display: none; }
+    .cat-btn { background: var(--card-bg); border: 1px solid var(--border); color: var(--muted); padding: 7px 15px; border-radius: 20px; font-size: 12px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: 0.2s; }
+    .cat-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+
+    /* Products List */
+    .menu-container { padding: 8px 16px 20px; }
+    .pizza-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; display: flex; gap: 12px; margin-bottom: 12px; }
+    .pizza-img-box { width: 95px; height: 95px; border-radius: 10px; overflow: hidden; flex-shrink: 0; position: relative; }
+    .pizza-img { width: 100%; height: 100%; object-fit: cover; }
+    .pizza-info { flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+    .pizza-title { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+    .pizza-desc { font-size: 11px; color: var(--muted); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 6px; }
+    .pizza-footer { display: flex; align-items: center; justify-content: space-between; }
+    .pizza-price { font-size: 15px; font-weight: 800; color: var(--gold); }
+
+    .btn-add { background: var(--elevated); color: var(--primary); border: 1px solid rgba(220, 38, 38, 0.4); width: 32px; height: 32px; border-radius: 8px; font-size: 15px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .btn-add:hover { background: var(--primary); color: #fff; }
+
+    .qty-box { display: flex; align-items: center; gap: 6px; background: var(--elevated); border-radius: 8px; padding: 2px; }
+    .btn-qty { width: 26px; height: 26px; background: var(--primary); border: none; color: #fff; border-radius: 6px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .qty-text { font-size: 12px; font-weight: 700; min-width: 16px; text-align: center; }
+
+    /* Floating Cart */
+    .floating-bar { position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%); width: calc(100% - 32px); max-width: 448px; background: linear-gradient(135deg, #dc2626, #b91c1c); border-radius: 20px; padding: 12px 18px; display: none; align-items: center; justify-content: space-between; box-shadow: 0 10px 30px rgba(220, 38, 38, 0.4); z-index: 99; cursor: pointer; }
+    .cart-bubble { background: rgba(0,0,0,0.3); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; }
+    .badge-count { position: absolute; top: -3px; right: -3px; background: var(--gold); color: #000; font-size: 10px; font-weight: 800; width: 17px; height: 17px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+    /* Drawer */
+    .drawer-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); z-index: 1000; display: none; align-items: flex-end; justify-content: center; }
+    .drawer-content { background: var(--card-bg); width: 100%; max-width: 480px; border-radius: 24px 24px 0 0; padding: 20px; max-height: 85vh; overflow-y: auto; border-top: 1px solid var(--border); }
+    .drawer-head { display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; border-bottom: 1px solid var(--border); margin-bottom: 12px; }
+    .order-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .input-field { width: 100%; background: var(--elevated); border: 1px solid var(--border); border-radius: 8px; color: #fff; padding: 10px; font-size: 13px; margin-bottom: 8px; outline: none; }
+    .btn-zap { width: 100%; background: #25d366; color: #fff; border: none; border-radius: 12px; padding: 14px; font-size: 15px; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; margin-top: 10px; }
+  </style>
+</head>
+<body>
+
+  <div class="app-viewport">
+    <div class="top-bar">
+      <div class="badge-demo">
+        <i class="fa-solid fa-pizza-slice"></i>
+        <span>MODELO PIZZARIA DEMO</span>
+      </div>
+      <div class="lang-box">
+        <button class="btn-lang" id="btn-pt" onclick="changeLang('pt')">🇧🇷 R$ (BR)</button>
+        <button class="btn-lang active" id="btn-en" onclick="changeLang('en')">🇺🇸 $ (US)</button>
+      </div>
+    </div>
+
+    <div class="hero-header">
+      <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=900&auto=format&fit=crop&q=80" class="hero-cover">
+      <div class="header-details">
+        <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=200&auto=format&fit=crop&q=80" class="logo-img">
+        <div class="title-box">
+          <div class="status-badge"><i class="fa-solid fa-circle" style="font-size:7px;"></i> FORNO LIGADO</div>
+          <h1>BELLA NAPOLI PIZZAS</h1>
+          <div style="font-size:12px; color:var(--muted);"><i class="fa-solid fa-star" style="color:var(--gold);"></i> 4.9 (730 avaliações) • Forno a Lenha</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-bar">
+      <div>
+        <i class="fa-solid fa-fire-burner"></i>
+        <strong>Forno a Lenha</strong>
+        <span>Massa Fermentação 48h</span>
+      </div>
+      <div>
+        <i class="fa-solid fa-moped"></i>
+        <strong>35 - 45 min</strong>
+        <span>Entrega Expressa</span>
+      </div>
+      <div>
+        <i class="fa-solid fa-wine-glass"></i>
+        <strong>Carta de Vinhos</strong>
+        <span>& Chopp Artesanal</span>
+      </div>
+    </div>
+
+    <div class="categories-bar">
+      <button class="cat-btn active" onclick="setCategory('all', this)">Todas as Pizzas</button>
+      <button class="cat-btn" onclick="setCategory('especiais', this)">Especiais da Casa</button>
+      <button class="cat-btn" onclick="setCategory('tradicionais', this)">Tradicionais</button>
+      <button class="cat-btn" onclick="setCategory('doces', this)">Pizzas Doces</button>
+      <button class="cat-btn" onclick="setCategory('bebidas', this)">Vinhos & Bebidas</button>
+    </div>
+
+    <div class="menu-container" id="menu-items">
+      <!-- Injetado dinamicamente -->
+    </div>
+
+    <!-- Carrinho Flutuante -->
+    <div class="floating-bar" id="floating-bar" onclick="openCart()">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div class="cart-bubble">
+          <i class="fa-solid fa-bag-shopping"></i>
+          <span class="badge-count" id="badge-count">0</span>
+        </div>
+        <div>
+          <h4 id="bar-total" style="font-size:14px; color:#fff;">R$ 0,00</h4>
+          <span id="bar-sub" style="font-size:11px; color:rgba(255,255,255,0.8);">0 itens</span>
+        </div>
+      </div>
+      <div style="font-size:13px; font-weight:800; background:rgba(0,0,0,0.3); padding:8px 12px; border-radius:12px;">
+        <span id="lbl-ver-pedido">Ver Pedido</span> <i class="fa-solid fa-arrow-right"></i>
+      </div>
+    </div>
+
+    <!-- Drawer do Pedido -->
+    <div class="drawer-overlay" id="drawer" onclick="closeCart(event)">
+      <div class="drawer-content" onclick="event.stopPropagation()">
+        <div class="drawer-head">
+          <h3 id="drawer-title">🍕 Pedido - Bella Napoli</h3>
+          <button style="background:none; border:none; color:#fff; font-size:18px; cursor:pointer;" onclick="closeCart(null)"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+
+        <div id="drawer-list" style="margin-bottom:14px;"></div>
+
+        <input type="text" class="input-field" id="p-name" placeholder="Nome Completo">
+        <input type="text" class="input-field" id="p-addr" placeholder="Endereço de Entrega ou Mesa">
+        <input type="text" class="input-field" id="p-border" placeholder="Borda recheada? (Catupiry, Cheddar, Chocolate)">
+
+        <div style="display:flex; justify-content:space-between; margin:12px 0 6px;">
+          <span style="color:var(--muted); font-size:13px;">Total:</span>
+          <strong style="color:var(--gold); font-size:18px;" id="drawer-total">R$ 0,00</strong>
+        </div>
+
+        <button class="btn-zap" onclick="submitPizzaZap()">
+          <i class="fa-brands fa-whatsapp" style="font-size:20px;"></i>
+          <span>Enviar Pedido pelo WhatsApp</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const pizzaCatalog = [
+      {
+        id: "pz1", cat: "especiais",
+        name_pt: "Pizza Parma & Stracciatella",
+        desc_pt: "Molho de tomate San Marzano, muçarela fior di latte, presunto de Parma curado 18 meses, queijo stracciatella e manjericão fresco.",
+        name_en: "Prosciutto Di Parma & Stracciatella Pizza",
+        desc_en: "San Marzano tomato sauce, fresh fior di latte mozzarella, 18-month aged prosciutto di Parma, creamy stracciatella, fresh basil.",
+        price_brl: 69.90, price_usd: 21.00,
+        img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&auto=format&fit=crop&q=80"
+      },
+      {
+        id: "pz2", cat: "especiais",
+        name_pt: "Pizza Tartufo & Cogumelos Salteados",
+        desc_pt: "Azeite trufado italiano, queijo brie cremoso, mix de cogumelos paris e shimeji na manteiga e tomilho fresco.",
+        name_en: "Truffle & Sautéed Wild Mushrooms Pizza",
+        desc_en: "Italian black truffle oil, creamy brie cheese, butter-sautéed wild mushrooms, fresh thyme on crispy artisan crust.",
+        price_brl: 74.90, price_usd: 23.50,
+        img: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400&auto=format&fit=crop&q=80"
+      },
+      {
+        id: "pz3", cat: "tradicionais",
+        name_pt: "Pizza Calabresa Artesanal & Cebola Roxa",
+        desc_pt: "Lâminas finas de calabresa defumada artesanal, cebola roxa marinada, azeitonas pretas azapa e orégano chileno.",
+        name_en: "Artisan Smoked Sausage & Red Onion",
+        desc_en: "Thinly sliced artisan smoked pepperoni sausage, marinated red onions, kalamata black olives, Chilean oregano.",
+        price_brl: 54.90, price_usd: 17.00,
+        img: "https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?w=400&auto=format&fit=crop&q=80"
+      },
+      {
+        id: "pz4", cat: "tradicionais",
+        name_pt: "Pizza Marguerita Clássica D.O.P.",
+        desc_pt: "Massa napolitana de longa fermentação, molho pelati italiano, rodelas de tomate caqui, queijo fior di latte e azeite extravirgem.",
+        name_en: "Classic Neapolitan Margherita D.O.P.",
+        desc_en: "48h slow-fermented Neapolitan dough, Italian San Marzano tomatoes, fresh mozzarella fior di latte, extra virgin olive oil.",
+        price_brl: 52.90, price_usd: 16.00,
+        img: "https://images.unsplash.com/photo-1604382355076-af4b0eb60143?w=400&auto=format&fit=crop&q=80"
+      },
+      {
+        id: "pz5", cat: "doces",
+        name_pt: "Pizza Nutella Pura com Morangos Frescos",
+        desc_pt: "Generosa camada de Nutella italiana aquecida no forno a lenha, morangos frescos fatiados e flocos crocantes de amêndoas tostadas.",
+        name_en: "Warm Nutella & Fresh Strawberries Pizza",
+        desc_en: "Wood-fired dessert crust smothered in warm artisan Nutella hazelnut spread, sliced fresh strawberries, toasted almonds.",
+        price_brl: 48.90, price_usd: 15.00,
+        img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&auto=format&fit=crop&q=80"
+      },
+      {
+        id: "pz6", cat: "bebidas",
+        name_pt: "Vinho Tinto Chianti Clássico 750ml",
+        desc_pt: "Vinho italiano toscano encorpado, notas de frutas vermelhas e especiarias, harmonização perfeita com pizzas artesanais.",
+        name_en: "Chianti Classico Italian Red Wine 750ml",
+        desc_en: "Full-bodied Tuscan red wine with wild berry and oak notes, perfect pairing for wood-fired artisan pizzas.",
+        price_brl: 89.00, price_usd: 28.00,
+        img: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=400&auto=format&fit=crop&q=80"
+      }
+    ];
+
+    let currentLanguage = 'en';
+    let currentCategory = 'all';
+    let cart = {};
+
+    function changeLang(lang) {
+      currentLanguage = lang;
+      document.getElementById('btn-pt').classList.toggle('active', lang === 'pt');
+      document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+      renderMenu();
+      updateCart();
+    }
+
+    function setCategory(cat, btn) {
+      currentCategory = cat;
+      document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+      if(btn) btn.classList.add('active');
+      renderMenu();
+    }
+
+    function formatVal(brl, usd) {
+      return currentLanguage === 'pt' ? 'R$ ' + brl.toFixed(2).replace('.', ',') : '$' + usd.toFixed(2);
+    }
+
+    function renderMenu() {
+      const el = document.getElementById('menu-items');
+      const filtered = pizzaCatalog.filter(p => currentCategory === 'all' || p.cat === currentCategory);
+
+      el.innerHTML = filtered.map(item => {
+        const qty = cart[item.id] || 0;
+        const name = currentLanguage === 'pt' ? item.name_pt : item.name_en;
+        const desc = currentLanguage === 'pt' ? item.desc_pt : item.desc_en;
+        const price = formatVal(item.price_brl, item.price_usd);
+        return `
+          <div class="pizza-card">
+            <div class="pizza-img-box">
+              <img src="${item.img}" class="pizza-img" alt="${name}">
+            </div>
+            <div class="pizza-info">
+              <div>
+                <h3 class="pizza-title">${name}</h3>
+                <p class="pizza-desc">${desc}</p>
+              </div>
+              <div class="pizza-footer">
+                <span class="pizza-price">${price}</span>
+                ${qty === 0 ? `
+                  <button class="btn-add" onclick="addItem('${item.id}')"><i class="fa-solid fa-plus"></i></button>
+                ` : `
+                  <div class="qty-box">
+                    <button class="btn-qty" onclick="subItem('${item.id}')"><i class="fa-solid fa-minus"></i></button>
+                    <span class="qty-text">${qty}</span>
+                    <button class="btn-qty" onclick="addItem('${item.id}')"><i class="fa-solid fa-plus"></i></button>
+                  </div>
+                `}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function addItem(id) {
+      cart[id] = (cart[id] || 0) + 1;
+      renderMenu();
+      updateCart();
+    }
+
+    function subItem(id) {
+      if(cart[id]) {
+        cart[id]--;
+        if(cart[id] <= 0) delete cart[id];
+      }
+      renderMenu();
+      updateCart();
+    }
+
+    function getTotals() {
+      let brl = 0, usd = 0, count = 0;
+      for(const [id, q] of Object.entries(cart)) {
+        const p = pizzaCatalog.find(x => x.id === id);
+        if(p) {
+          brl += p.price_brl * q;
+          usd += p.price_usd * q;
+          count += q;
+        }
+      }
+      return { brl, usd, count };
+    }
+
+    function updateCart() {
+      const { brl, usd, count } = getTotals();
+      const bar = document.getElementById('floating-bar');
+      document.getElementById('badge-count').innerText = count;
+      document.getElementById('bar-total').innerText = formatVal(brl, usd);
+      document.getElementById('bar-sub').innerText = `${count} pizza(s)`;
+      bar.style.display = count > 0 ? 'flex' : 'none';
+
+      document.getElementById('drawer-total').innerText = formatVal(brl, usd);
+      const listEl = document.getElementById('drawer-list');
+      listEl.innerHTML = Object.entries(cart).map(([id, q]) => {
+        const p = pizzaCatalog.find(x => x.id === id);
+        if(!p) return '';
+        return `
+          <div class="order-row">
+            <div>
+              <div style="font-size:13px; font-weight:700;">${p.name_pt}</div>
+              <div style="font-size:12px; color:var(--gold);">${q}x • ${formatVal(p.price_brl * q, p.price_usd * q)}</div>
+            </div>
+            <div class="qty-box">
+              <button class="btn-qty" onclick="subItem('${p.id}')">-</button>
+              <span class="qty-text">${q}</span>
+              <button class="btn-qty" onclick="addItem('${p.id}')">+</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function openCart() {
+      document.getElementById('drawer').style.display = 'flex';
+    }
+    function closeCart(e) {
+      document.getElementById('drawer').style.display = 'none';
+    }
+
+    function submitPizzaZap() {
+      const { brl, count } = getTotals();
+      if(count === 0) return alert('Selecione ao menos 1 pizza!');
+      const name = document.getElementById('p-name').value.trim() || 'Cliente';
+      const addr = document.getElementById('p-addr').value.trim() || 'Balcão / A combinar';
+      const border = document.getElementById('p-border').value.trim();
+
+      let msg = `🍕 *PEDIDO - BELLA NAPOLI PIZZAS*\n\n`;
+      msg += `👤 *Cliente:* ${name}\n`;
+      msg += `📍 *Endereço/Mesa:* ${addr}\n`;
+      if(border) msg += `🧀 *Borda/Obs:* ${border}\n`;
+      msg += `\n🛒 *PIZZAS SELECIONADAS:*\n`;
+
+      for(const [id, q] of Object.entries(cart)) {
+        const p = pizzaCatalog.find(x => x.id === id);
+        if(p) msg += `• ${q}x ${p.name_pt} (R$ ${(p.price_brl * q).toFixed(2).replace('.', ',')})\n`;
+      }
+      msg += `\n💰 *TOTAL: R$ ${brl.toFixed(2).replace('.', ',')}*\n`;
+
+      window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('lang') === 'pt') {
+      changeLang('pt');
+    } else {
+      changeLang('en');
+    }
+  </script>
+</body>
+</html>

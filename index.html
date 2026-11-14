@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="page-title">Vitrine de Cardápios Digitais Interativos | Portfólio Mobile</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: #111726;
+      --primary: #ff5722;
+      --accent: #ffb300;
+      --green: #22c55e;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --border: #1e293b;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body { background-color: var(--bg); color: var(--text); line-height: 1.5; padding-bottom: 60px; }
+    .container { max-width: 1050px; margin: 0 auto; padding: 0 20px; }
+
+    header { padding: 35px 0 25px; text-align: center; border-bottom: 1px solid var(--border); }
+    
+    .lang-bar-container {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .lang-switcher-box {
+      display: inline-flex;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 24px;
+      padding: 3px;
+      gap: 3px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+    }
+
+    .lang-pill-btn {
+      border: none;
+      background: transparent;
+      color: #94a3b8;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .lang-pill-btn.active {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(255, 87, 34, 0.4);
+    }
+
+    .badge-top {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 87, 34, 0.15);
+      color: var(--primary);
+      border: 1px solid rgba(255, 87, 34, 0.3);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 46px;
+      letter-spacing: 1px;
+      line-height: 1.1;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, #fff, #94a3b8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    p.subtitle {
+      color: var(--muted);
+      font-size: 15px;
+      max-width: 680px;
+      margin: 0 auto 20px;
+    }
+
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin: 30px 0 40px;
+    }
+
+    .benefit-item {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .benefit-icon {
+      font-size: 22px;
+      color: var(--accent);
+      margin-top: 2px;
+    }
+
+    .benefit-item h4 {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .benefit-item p {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 24px;
+    }
+
+    .section-header h2 {
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    .showcase-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 24px;
+    }
+
+    .template-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: transform 0.2s, border-color 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .template-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--primary);
+    }
+
+    .card-preview {
+      position: relative;
+      height: 200px;
+      overflow: hidden;
+    }
+
+    .card-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+
+    .template-card:hover .card-preview img {
+      transform: scale(1.05);
+    }
+
+    .status-pill {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(4px);
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 700;
+      border: 1px solid var(--green);
+      color: #4ade80;
+    }
+
+    .card-body {
+      padding: 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card-body h3 {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .card-body p {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    .card-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .tag {
+      background: rgba(255,255,255,0.06);
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .btn-test {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--primary);
+      color: #fff;
+      text-decoration: none;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .btn-test:hover {
+      background: #e64a19;
+      transform: translateY(-1px);
+    }
+
+    .cta-box {
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      border: 1px solid rgba(255, 87, 34, 0.4);
+      border-radius: 16px;
+      padding: 35px 25px;
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    .cta-box h3 {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .cta-box p {
+      color: var(--muted);
+      font-size: 14px;
+      max-width: 600px;
+      margin: 0 auto 20px;
+    }
+
+    .btn-contact {
+      background: #25d366;
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 32px;
+      border-radius: 30px;
+      font-weight: 800;
+      text-decoration: none;
+      font-size: 15px;
+      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.35);
+      transition: transform 0.15s;
+    }
+
+    .btn-contact:hover {
+      transform: scale(1.03);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <!-- Seletor de Idioma em Destaque -->
+      <div class="lang-bar-container">
+        <div class="lang-switcher-box">
+          <button id="hub-btn-pt" class="lang-pill-btn" onclick="setHubLang('pt')">
+            <span>🇧🇷 Português (BR)</span>
+          </button>
+          <button id="hub-btn-en" class="lang-pill-btn active" onclick="setHubLang('en')">
+            <span>🇺🇸 English (US)</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="badge-top">
+        <i class="fa-solid fa-mobile-screen-button"></i>
+        <span id="txt-hub-badge">PORTFÓLIO DE TECNOLOGIA PARA RESTAURANTES</span>
+      </div>
+      <h1 id="txt-hub-title">CARDÁPIOS DIGITAIS INTERATIVOS</h1>
+      <p class="subtitle" id="txt-hub-sub">Apresente seus pratos com fotos apetitosas, carregamento instantâneo, QR Code para mesas e pedidos diretos no WhatsApp sem pagar comissão para ninguém.</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Grade de Benefícios -->
+    <div class="benefits-grid">
+      <div class="benefit-item">
+        <i class="fa-solid fa-bolt benefit-icon"></i>
+        <div>
+          <h4 id="b1-title">Carrega em 1 Segundo</h4>
+          <p id="b1-desc">Sem travar o celular do cliente no 4G. Nada de baixar PDFs pesados de 20MB.</p>
+        </div>
+      </div>
+      <div class="benefit-item">
+        <i class="fa-brands fa-whatsapp benefit-icon" style="color:#25d366;"></i>
+        <div>
+          <h4 id="b2-title">Pedido Pronto no WhatsApp</h4>
+          <p id="b2-desc">O cliente escolhe os itens, opcionais e envia o resumo com cálculo automático no seu WhatsApp.</p>
+        </div>
+      </div>
+      <div class="benefit-item">
+        <i class="fa-solid fa-qrcode benefit-icon"></i>
+        <div>
+          <h4 id="b3-title">QR Code de Balcão e Mesa</h4>
+          <p id="b3-desc">Pronto para imprimir em displays acrílicos, adesivos de mesa e caixas de entrega.</p>
+        </div>
+      </div>
+      <div class="benefit-item">
+        <i class="fa-solid fa-credit-card benefit-icon" style="color:var(--accent);"></i>
+        <div>
+          <h4 id="b4-title">Pix, Troco & Taxa de Entrega</h4>
+          <p id="b4-desc">Cálculo de taxa por bairro, Pix Copia-e-Cola e cálculo automático de troco em dinheiro.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Título da Seção -->
+    <div class="section-header">
+      <div>
+        <h2 id="sec-title">Escolha um Modelo para Testar no Celular:</h2>
+        <p style="color:var(--muted); font-size:13px;" id="sec-sub">Abra e teste a adição de pratos ao carrinho e o fechamento em tempo real:</p>
+      </div>
+    </div>
+
+    <!-- Grade de Modelos -->
+    <div class="showcase-grid">
+
+      <!-- Modelo 1: Burgers & Craft PRO -->
+      <div class="template-card">
+        <div class="card-preview">
+          <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?w=600&auto=format&fit=crop&q=80" alt="Burger">
+          <span class="status-pill" id="pill-card1">● DEMO COMPLETA (PRO)</span>
+        </div>
+        <div class="card-body">
+          <div>
+            <h3 id="card1-title">The Forge - Burgers & Grill (PRO)</h3>
+            <p id="card1-desc">Tema escuro sofisticado com Upsell de adicionais, ponto da carne, Pix com cópia de chave, troco automático, taxas por bairro, cupons e impressão de comanda 80mm.</p>
+            <div class="card-tags" id="card1-tags">
+              <span class="tag">Hamburguerias</span>
+              <span class="tag">Upsell & Adicionais</span>
+              <span class="tag">Pix & Troco</span>
+              <span class="tag">Comanda 80mm</span>
+            </div>
+          </div>
+          <a id="btn-link-burger" href="1-burger.html" class="btn-test" target="_blank">
+            <span id="btn-text-burger">Testar Cardápio Pro de Burgers</span>
+            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Modelo 2: Pizzas & Trattoria -->
+      <div class="template-card">
+        <div class="card-preview">
+          <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600&auto=format&fit=crop&q=80" alt="Pizza">
+          <span class="status-pill" id="pill-card2">● DEMO COMPLETA</span>
+        </div>
+        <div class="card-body">
+          <div>
+            <h3 id="card2-title">Bella Napoli - Pizzaria & Forno a Lenha</h3>
+            <p id="card2-desc">Layout tradicional para pizzarias artesanais, pizzas salgadas e doces, seleção de bordas, vinhos e cálculo de pedidos direto no WhatsApp.</p>
+            <div class="card-tags" id="card2-tags">
+              <span class="tag">Pizzarias</span>
+              <span class="tag">Italiano</span>
+              <span class="tag">Forno a Lenha</span>
+            </div>
+          </div>
+          <a id="btn-link-pizza" href="2-pizza.html" class="btn-test" target="_blank">
+            <span id="btn-text-pizza">Testar Cardápio de Pizzas</span>
+            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Modelo 3: Sushi Lounge -->
+      <div class="template-card">
+        <div class="card-preview">
+          <img src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=600&auto=format&fit=crop&q=80" alt="Sushi">
+          <span class="status-pill" id="pill-card3">● DEMO COMPLETA</span>
+        </div>
+        <div class="card-body">
+          <div>
+            <h3 id="card3-title">Kyoto - Sushi Bar & Lounge</h3>
+            <p id="card3-desc">Design premium em preto e dourado com foco em combinados especiais, temakis, sashimis e drinks finos para culinária asiática contemporânea.</p>
+            <div class="card-tags" id="card3-tags">
+              <span class="tag">Sushi & Japonês</span>
+              <span class="tag">Lounge Bar</span>
+              <span class="tag">Asiático Moderno</span>
+            </div>
+          </div>
+          <a id="btn-link-sushi" href="3-sushi.html" class="btn-test" target="_blank">
+            <span id="btn-text-sushi">Testar Cardápio de Sushi</span>
+            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Caixa CTA Final -->
+    <div class="cta-box">
+      <h3 id="cta-title">Quer um Cardápio Moderno como este para o seu Negócio?</h3>
+      <p id="cta-desc">Colocamos seu logotipo, fotos reais dos seus pratos, cálculo de entrega e seu WhatsApp funcionando em até 48 horas.</p>
+      <a id="cta-btn-link" href="https://wa.me/?text=Olá!%20Gostei%20do%20modelo%20de%20Cardápio%20Digital%20e%20gostaria%20de%20saber%20valores%20para%20o%20meu%20estabelecimento." class="btn-contact" target="_blank">
+        <i class="fa-brands fa-whatsapp"></i>
+        <span id="cta-btn-text">Falar Conosco no WhatsApp</span>
+      </a>
+    </div>
+  </main>
+
+  <script>
+    // Dicionário Completo de Traduções Bilíngue (PT / EN)
+    const i18n = {
+      pt: {
+        pageTitle: "Vitrine de Cardápios Digitais Interativos | Portfólio Mobile",
+        badge: "PORTFÓLIO DE TECNOLOGIA PARA RESTAURANTES",
+        title: "CARDÁPIOS DIGITAIS INTERATIVOS",
+        sub: "Apresente seus pratos com fotos apetitosas, carregamento instantâneo, QR Code para mesas e pedidos diretos no WhatsApp sem pagar comissão para ninguém.",
+        b1Title: "Carrega em 1 Segundo",
+        b1Desc: "Sem travar o celular do cliente no 4G. Nada de baixar PDFs pesados de 20MB.",
+        b2Title: "Pedido Pronto no WhatsApp",
+        b2Desc: "O cliente escolhe os itens, opcionais e envia o resumo com cálculo automático no seu WhatsApp.",
+        b3Title: "QR Code de Balcão e Mesa",
+        b3Desc: "Pronto para imprimir em displays acrílicos, adesivos de mesa e caixas de entrega.",
+        b4Title: "Pix, Troco & Taxa de Entrega",
+        b4Desc: "Cálculo de taxa por bairro, Pix Copia-e-Cola e cálculo automático de troco em dinheiro.",
+        secTitle: "Escolha um Modelo para Testar no Celular:",
+        secSub: "Abra e teste a adição de pratos ao carrinho e o fechamento em tempo real:",
+        pillCard1: "● DEMO COMPLETA (PRO)",
+        pillCard2: "● DEMO COMPLETA",
+        pillCard3: "● DEMO COMPLETA",
+        
+        // Cards
+        card1Title: "The Forge - Burgers & Grill (PRO)",
+        card1Desc: "Tema escuro sofisticado com Upsell de adicionais, ponto da carne, Pix com cópia de chave, troco automático, taxas por bairro, cupons e impressão de comanda 80mm.",
+        card1Tags: ["Hamburguerias", "Upsell & Adicionais", "Pix & Troco", "Comanda 80mm"],
+        card1Btn: "Testar Cardápio Pro de Burgers",
+
+        card2Title: "Bella Napoli - Pizzaria & Forno a Lenha",
+        card2Desc: "Layout tradicional para pizzarias artesanais, pizzas salgadas e doces, seleção de bordas, vinhos e cálculo de pedidos direto no WhatsApp.",
+        card2Tags: ["Pizzarias", "Italiano", "Forno a Lenha"],
+        card2Btn: "Testar Cardápio de Pizzas",
+
+        card3Title: "Kyoto - Sushi Bar & Lounge",
+        card3Desc: "Design premium em preto e dourado com foco em combinados especiais, temakis, sashimis e drinks finos para culinária asiática contemporânea.",
+        card3Tags: ["Sushi & Japonês", "Lounge Bar", "Asiático Moderno"],
+        card3Btn: "Testar Cardápio de Sushi",
+
+        ctaTitle: "Quer um Cardápio Moderno como este para o seu Negócio?",
+        ctaDesc: "Colocamos seu logotipo, fotos reais dos seus pratos, cálculo de entrega e seu WhatsApp funcionando em até 48 horas.",
+        ctaBtn: "Falar Conosco no WhatsApp",
+        ctaWaMsg: "Olá! Gostei do modelo de Cardápio Digital e gostaria de saber valores para o meu estabelecimento."
+      },
+      en: {
+        pageTitle: "Interactive Digital Menus Showcase | Restaurant Tech Portfolio",
+        badge: "RESTAURANT TECHNOLOGY & CONTACTLESS ORDERING",
+        title: "INTERACTIVE DIGITAL MENUS",
+        sub: "Showcase mouthwatering dishes with lightning-fast smartphone loading, table QR codes, and direct commission-free ordering routed to WhatsApp/SMS.",
+        b1Title: "Instant 1-Second Loading",
+        b1Desc: "Smooth mobile performance on 4G/5G. No slow 25MB PDFs or sluggish app downloads.",
+        b2Title: "Automated WhatsApp Orders",
+        b2Desc: "Customers customize toppings, pick sides, and send a pre-calculated order directly to your phone.",
+        b3Title: "Table & Counter QR Codes",
+        b3Desc: "Ready to print on acrylic table displays, takeout boxes, and counter stickers.",
+        b4Title: "Delivery Fees & Change Calc",
+        b4Desc: "Automated delivery fees by district, instant digital payment options, and cash change calculation.",
+        secTitle: "Choose a Live Interactive Template to Test:",
+        secSub: "Click any model below to test smartphone customization, cart, and checkout in real time:",
+        pillCard1: "● FULL LIVE DEMO (PRO)",
+        pillCard2: "● FULL LIVE DEMO",
+        pillCard3: "● FULL LIVE DEMO",
+
+        // Cards
+        card1Title: "The Forge - Burgers & Grill (PRO)",
+        card1Desc: "Sleek dark theme featuring item upsells, meat doneness selectors, fast checkout, automated cash change calculation, delivery zone rates, promo codes, and 80mm kitchen ticket printing.",
+        card1Tags: ["Burger Bars", "Upsells & Addons", "Fast Checkout", "80mm Ticket"],
+        card1Btn: "Test Gourmet Burger Digital Menu",
+
+        card2Title: "Bella Napoli - Artisan Pizza & Wood Oven",
+        card2Desc: "Authentic Italian pizzeria layout featuring wood-fired pies, stuffed crust selections, wine pairings, and instant calculated smartphone ordering.",
+        card2Tags: ["Pizzerias", "Italian Dining", "Wood-Fired Pizza"],
+        card2Btn: "Test Artisan Pizza Digital Menu",
+
+        card3Title: "Kyoto - Sushi Bar & Japanese Lounge",
+        card3Desc: "Luxury black & gold aesthetic highlighting chef omakase combos, temakis, fresh sashimi, and craft cocktails for contemporary dining.",
+        card3Tags: ["Sushi & Japanese", "Lounge Bar", "Asian Fusion"],
+        card3Btn: "Test Sushi Lounge Digital Menu",
+
+        ctaTitle: "Want a Custom Digital Menu for Your Restaurant?",
+        ctaDesc: "We integrate your brand logo, real dish photography, delivery rates, and ordering system ready within 48 hours.",
+        ctaBtn: "Chat with Us on WhatsApp",
+        ctaWaMsg: "Hello! I saw your interactive digital menu portfolio and would love to get a quote for my restaurant."
+      }
+    };
+
+    function setHubLang(lang) {
+      localStorage.setItem('hub_selected_lang', lang);
+      const data = i18n[lang] || i18n.pt;
+
+      // Atualiza botões
+      document.getElementById('hub-btn-pt').classList.toggle('active', lang === 'pt');
+      document.getElementById('hub-btn-en').classList.toggle('active', lang === 'en');
+
+      // Título e Header
+      document.getElementById('page-title').innerText = data.pageTitle;
+      document.getElementById('txt-hub-badge').innerText = data.badge;
+      document.getElementById('txt-hub-title').innerText = data.title;
+      document.getElementById('txt-hub-sub').innerText = data.sub;
+
+      // Benefícios
+      document.getElementById('b1-title').innerText = data.b1Title;
+      document.getElementById('b1-desc').innerText = data.b1Desc;
+      document.getElementById('b2-title').innerText = data.b2Title;
+      document.getElementById('b2-desc').innerText = data.b2Desc;
+      document.getElementById('b3-title').innerText = data.b3Title;
+      document.getElementById('b3-desc').innerText = data.b3Desc;
+      document.getElementById('b4-title').innerText = data.b4Title;
+      document.getElementById('b4-desc').innerText = data.b4Desc;
+
+      // Seção e Badges
+      document.getElementById('sec-title').innerText = data.secTitle;
+      document.getElementById('sec-sub').innerText = data.secSub;
+      document.getElementById('pill-card1').innerText = data.pillCard1;
+      document.getElementById('pill-card2').innerText = data.pillCard2;
+      document.getElementById('pill-card3').innerText = data.pillCard3;
+
+      // Card 1 (Burger)
+      document.getElementById('card1-title').innerText = data.card1Title;
+      document.getElementById('card1-desc').innerText = data.card1Desc;
+      document.getElementById('btn-text-burger').innerText = data.card1Btn;
+      document.getElementById('btn-link-burger').href = `1-burger.html`;
+      document.getElementById('card1-tags').innerHTML = data.card1Tags.map(t => `<span class="tag">${t}</span>`).join('');
+
+      // Card 2 (Pizza)
+      document.getElementById('card2-title').innerText = data.card2Title;
+      document.getElementById('card2-desc').innerText = data.card2Desc;
+      document.getElementById('btn-text-pizza').innerText = data.card2Btn;
+      document.getElementById('btn-link-pizza').href = `2-pizza.html`;
+      document.getElementById('card2-tags').innerHTML = data.card2Tags.map(t => `<span class="tag">${t}</span>`).join('');
+
+      // Card 3 (Sushi)
+      document.getElementById('card3-title').innerText = data.card3Title;
+      document.getElementById('card3-desc').innerText = data.card3Desc;
+      document.getElementById('btn-text-sushi').innerText = data.card3Btn;
+      document.getElementById('btn-link-sushi').href = `3-sushi.html`;
+      document.getElementById('card3-tags').innerHTML = data.card3Tags.map(t => `<span class="tag">${t}</span>`).join('');
+
+      // CTA Final
+      document.getElementById('cta-title').innerText = data.ctaTitle;
+      document.getElementById('cta-desc').innerText = data.ctaDesc;
+      document.getElementById('cta-btn-text').innerText = data.ctaBtn;
+      document.getElementById('cta-btn-link').href = `https://wa.me/?text=${encodeURIComponent(data.ctaWaMsg)}`;
+    }
+
+    // Inicialização Inteligente (Abre em Inglês por Padrão para Clientes Estrangeiros!)
+    window.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const paramLang = urlParams.get('lang');
+      if (paramLang === 'pt') {
+        setHubLang('pt');
+      } else {
+        setHubLang('en');
+      }
+    });
+  </script>
+</body>
+</html>
